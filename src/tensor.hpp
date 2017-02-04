@@ -102,6 +102,16 @@ namespace sor {
 			return array[index];
 		}
 
+		template<typename... Args>
+		Type const& operator()(Args... args) const {
+			static_assert(
+				sizeof...(Args) == sizeof...(Dims), 
+				"Number of indeces and rank don't match"
+			);
+			auto index = detail::flatten_indexes<Dims...>(args...);
+			return array[index];
+		}
+
 	private:
 
 		std::array<Type, detail::multiply<Dims...>::value> array;
