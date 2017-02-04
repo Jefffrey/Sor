@@ -1,3 +1,7 @@
 .DS_Store
 main
 main.cpp
+tests
+obj/*
+build.ninja
+*.pyc
