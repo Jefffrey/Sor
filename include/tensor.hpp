@@ -14,10 +14,10 @@ namespace sor {
 	template<typename Type, std::size_t... Indexes>
 	struct tensor;
 
-	/* Implementation of the `sor::rank` metaprogramming function.
+	/* Implementation of the `sor::order` metaprogramming function.
 	*/
 	template<typename Type, std::size_t... Dims>
-	struct rank<tensor<Type, Dims...>>
+	struct order<tensor<Type, Dims...>>
 		: public std::integral_constant<std::size_t, sizeof...(Dims)> {};
 
 	/* Implementation of the `sor::extent` metaprogramming function.
@@ -96,7 +96,7 @@ namespace sor {
 		Type& operator()(Args... args) {
 			static_assert(
 				sizeof...(Args) == sizeof...(Dims), 
-				"Number of indeces and rank don't match"
+				"Number of indeces and order don't match"
 			);
 			auto index = detail::flatten_indexes<Dims...>(args...);
 			return array[index];
@@ -106,7 +106,7 @@ namespace sor {
 		Type const& operator()(Args... args) const {
 			static_assert(
 				sizeof...(Args) == sizeof...(Dims), 
-				"Number of indeces and rank don't match"
+				"Number of indeces and order don't match"
 			);
 			auto index = detail::flatten_indexes<Dims...>(args...);
 			return array[index];

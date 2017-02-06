@@ -3,15 +3,15 @@
 
 TEST_CASE("tensor", "[tensor]") {
 
-	SECTION("rank") {
-		using rank1 = sor::rank<sor::tensor<int, 1>>;
-		using rank2 = sor::rank<sor::tensor<int, 3, 4>>;
-		using rank3 = sor::rank<sor::tensor<int, 4, 2, 5>>;
-		using rank4 = sor::rank<sor::tensor<int, 7, 1, 34, 56>>;
-		REQUIRE(rank1::value == 1);
-		REQUIRE(rank2::value == 2);
-		REQUIRE(rank3::value == 3);
-		REQUIRE(rank4::value == 4);
+	SECTION("order") {
+		using order1 = sor::order<sor::tensor<int, 1>>;
+		using order2 = sor::order<sor::tensor<int, 3, 4>>;
+		using order3 = sor::order<sor::tensor<int, 4, 2, 5>>;
+		using order4 = sor::order<sor::tensor<int, 7, 1, 34, 56>>;
+		REQUIRE(order1::value == 1);
+		REQUIRE(order2::value == 2);
+		REQUIRE(order3::value == 3);
+		REQUIRE(order4::value == 4);
 	}
 
 	SECTION("extent") {
