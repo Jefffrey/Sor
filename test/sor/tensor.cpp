@@ -37,7 +37,7 @@ SCENARIO("tensor order query", "[tensor]") {
 
 SCENARIO("tensor extent query", "[tensor]") {
 
-	GIVEN("a tensor") {
+	GIVEN("a tensor type") {
 
 		using tensor = sor::tensor<int, 7, 1, 34>;
 
@@ -52,6 +52,32 @@ SCENARIO("tensor extent query", "[tensor]") {
 				REQUIRE(extent0::value == 7);
 				REQUIRE(extent1::value == 1);
 				REQUIRE(extent2::value == 34);
+
+			}
+
+		}
+
+	}
+
+}
+
+SCENARIO("tensor type definitions", "[tensor]") {
+
+	GIVEN("a tensor type") {
+
+		using tensor = sor::tensor<unsigned int, 7, 1, 34>;
+
+		WHEN("we query its value type") {
+
+			using type = tensor::value_type;
+
+			THEN("we get the type of the elements") {
+
+				constexpr bool are_equal = std::is_same<
+					type,
+					unsigned int
+				>::value;
+				REQUIRE(are_equal);
 
 			}
 

@@ -46,10 +46,14 @@ namespace sor {
 
 		using tensor_facade_type = tensor_facade<Type, Dims...>;
 		using container_type = std::array<Type, detail::multiply<Dims...>::value>;
-		
+
 		container_type array;
 
 	public:
+
+		/* Type definitions
+		*/
+		using value_type = Type;
 
 		/* Regular default, copy and move constructors work as you would expect.
 		*/
