@@ -581,3 +581,49 @@ SCENARIO("tensor swap", "[tensor]") {
 	}
 
 }
+
+SCENARIO("tensor size") {
+
+	GIVEN("a tensor") {
+
+		sor::tensor<int, 3, 5, 2> tensor;
+
+		WHEN("we query for its size") {
+
+			constexpr auto size = tensor.size();
+
+			THEN("we get the total number of elements in the tensor") {
+
+				REQUIRE(size == 30);
+
+			}
+
+		}
+
+		WHEN("we query for its maximum size") {
+
+			constexpr auto max_size = tensor.max_size();
+
+			THEN("we get the total number of elements in the tensor") {
+
+				REQUIRE(max_size == 30);
+
+			}
+
+		}
+
+		WHEN("we query whether it's empty or not") {
+
+			constexpr auto is_empty = tensor.empty();
+
+			THEN("we get false") {
+
+				REQUIRE(!is_empty);
+
+			}
+
+		}
+
+	}
+
+}

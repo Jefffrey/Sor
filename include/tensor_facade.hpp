@@ -57,9 +57,6 @@ namespace sor {
 		using reference = Type&;
 		using const_reference = Type const&;
 
-		using difference_type = typename container_type::difference_type;
-		using size_type = typename container_type::size_type;
-
 		/* Regular default, copy and move constructors work as you would expect.
 		*/
 		tensor_facade() = default;
@@ -128,6 +125,23 @@ namespace sor {
 			);
 			auto index = detail::flatten_indexes<Dims...>(args...);
 			return array[index];
+		}
+
+		/* Size related member functions
+		*/
+		using difference_type = typename container_type::difference_type;
+		using size_type = typename container_type::size_type;
+
+		constexpr size_type size() const {
+			return detail::multiply<Dims...>::value;
+		}
+
+		constexpr size_type max_size() const {
+			return this->size();
+		}
+
+		constexpr bool empty() const {
+			return size() == 0;
 		}
 
 	};
