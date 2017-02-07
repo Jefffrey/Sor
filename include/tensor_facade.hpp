@@ -2,6 +2,7 @@
 
 #include <array>
 #include <algorithm>
+#include <type_traits>
 
 #include "type_traits.hpp"
 #include "detail/tmp.hpp"
@@ -68,7 +69,8 @@ namespace sor {
 		tensor_facade& operator=(tensor_facade const&) = default;
 		tensor_facade& operator=(tensor_facade&&) = default;
 
-		/* Iterators */
+		/* Iterators 
+		*/
 		using iterator = typename container_type::iterator;
 		using const_iterator = typename container_type::const_iterator;
 
@@ -82,6 +84,12 @@ namespace sor {
 		constexpr const_iterator end() const { return array.end(); }
 		constexpr const_iterator cend() const {
 			return const_cast<tensor_facade_type const&>(*this).end();
+		}
+
+		/* Swap function
+		*/
+		void swap(tensor_facade& rhs) {
+			array.swap(rhs.array);
 		}
 
 		/* Element access operator. It access the member based on the given indexes.

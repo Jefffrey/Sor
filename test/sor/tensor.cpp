@@ -442,3 +442,84 @@ SCENARIO("tensor equality", "[tensor]") {
 	}
 
 }
+
+SCENARIO("tensor swap", "[tensor]") {
+
+	GIVEN("two tensors") {
+
+		sor::tensor<int, 2, 3> tensor1({
+			3, 56, 6,
+			1, 0, -3
+		});
+		sor::tensor<int, 2, 3> tensor2({
+			6, -5, 45,
+			-9, -34, 65
+		});
+
+		WHEN("we swap them with the member function") {
+
+			tensor1.swap(tensor2);
+
+			THEN("the first tensor is equal to the previous second") {
+
+				bool condition =
+					tensor1(0, 0) == 6 &&
+					tensor1(0, 1) == -5 &&
+					tensor1(0, 2) == 45 &&
+					tensor1(1, 0) == -9 &&
+					tensor1(1, 1) == -34 &&
+					tensor1(1, 2) == 65;
+				REQUIRE(condition);
+
+			}
+
+			THEN("the second tensor is equal to the previous first") {
+
+				bool condition =
+					tensor2(0, 0) == 3 &&
+					tensor2(0, 1) == 56 &&
+					tensor2(0, 2) == 6 &&
+					tensor2(1, 0) == 1 &&
+					tensor2(1, 1) == 0 &&
+					tensor2(1, 2) == -3;
+				REQUIRE(condition);
+
+			}
+
+		}
+
+		WHEN("we swap them with the non-member functions") {
+
+			std::swap(tensor1, tensor2);
+
+			THEN("the first tensor is equal to the previous second") {
+
+				bool condition =
+					tensor1(0, 0) == 6 &&
+					tensor1(0, 1) == -5 &&
+					tensor1(0, 2) == 45 &&
+					tensor1(1, 0) == -9 &&
+					tensor1(1, 1) == -34 &&
+					tensor1(1, 2) == 65;
+				REQUIRE(condition);
+
+			}
+
+			THEN("the second tensor is equal to the previous first") {
+
+				bool condition =
+					tensor2(0, 0) == 3 &&
+					tensor2(0, 1) == 56 &&
+					tensor2(0, 2) == 6 &&
+					tensor2(1, 0) == 1 &&
+					tensor2(1, 1) == 0 &&
+					tensor2(1, 2) == -3;
+				REQUIRE(condition);
+
+			}
+
+		}
+
+	}
+
+}

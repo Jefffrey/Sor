@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <type_traits>
 
 #include "type_traits.hpp"
@@ -54,6 +55,13 @@ namespace sor {
 	template<typename LhsType, typename RhsType, std::size_t... CommonDims>
 	bool operator!=(tensor<LhsType, CommonDims...> const& lhs, tensor<RhsType, CommonDims...> const& rhs) {
 		return !(lhs == rhs);
+	}
+
+	/* Swap function
+	*/
+	template<typename Type, std::size_t... Dims>
+	void swap(tensor<Type, Dims...>& lhs, tensor<Type, Dims...>& rhs) {
+		lhs.swap(rhs);
 	}
 
 }
