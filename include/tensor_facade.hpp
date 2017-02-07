@@ -43,6 +43,7 @@ namespace sor {
 
 	private:
 
+		using tensor_facade_type = tensor_facade<Type, Dims...>;
 		using container_type = std::array<Type, detail::multiply<Dims...>::value>;
 		container_type array;
 
@@ -75,11 +76,15 @@ namespace sor {
 
 		constexpr iterator begin() { return array.begin(); }
 		constexpr const_iterator begin() const { return array.begin(); }
-		constexpr const_iterator cbegin() const { return array.cbegin(); }
+		constexpr const_iterator cbegin() const { 
+			return const_cast<tensor_facade_type const&>(*this).begin();
+		}
 
 		constexpr iterator end() { return array.end(); }
 		constexpr const_iterator end() const { return array.end(); }
-		constexpr const_iterator cend() const { return array.cend(); }
+		constexpr const_iterator cend() const {
+			return const_cast<tensor_facade_type const&>(*this).end();
+		}
 
 		/* Element access operator. It access the member based on the given indexes.
 		 * Example:
