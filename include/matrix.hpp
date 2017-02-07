@@ -19,10 +19,22 @@ namespace sor {
 		*/
 		template<typename OtherType>
 		auto& operator+=(matrix<OtherType, N, M> const& rhs) {
-			for (std::size_t i = 0; i < N; i++) {
-				for (std::size_t j = 0; j < M; j++) {
-					(*this)(i, j) += rhs(i, j);
-				}
+			auto l = this->begin();
+			auto r = rhs.begin();
+			for (; l < this->end() && r < rhs.end(); ++l, ++r) {
+				*l += *r;
+			}
+			return (*this);
+		}
+
+		/* Matrix subtraction.
+		*/
+		template<typename OtherType>
+		auto& operator-=(matrix<OtherType, N, M> const& rhs) {
+			auto l = this->begin();
+			auto r = rhs.begin();
+			for (; l < this->end() && r < rhs.end(); ++l, ++r) {
+				*l -= *r;
 			}
 			return (*this);
 		}

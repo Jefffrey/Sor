@@ -92,3 +92,40 @@ SCENARIO("vector addition", "[vector]") {
 	}
 
 }
+
+SCENARIO("vector subtraction", "[vector]") {
+
+	GIVEN("few non constant vectors") {
+
+		sor::vector<int, 3> vector1({
+			3, 6, 1
+		});
+		sor::vector<int, 3> vector2({
+			7, 3, 6
+		});
+
+		WHEN("we subtract one to the other") {
+
+			vector1 -= vector2;
+
+			THEN("the result is stored in the first one") {
+
+				REQUIRE(vector1[0] == -4);
+				REQUIRE(vector1[1] == 3);
+				REQUIRE(vector1[2] == -5);
+
+			}
+
+			THEN("the second one remains unchanged") {
+
+				REQUIRE(vector2(0) == 7);
+				REQUIRE(vector2(1) == 3);
+				REQUIRE(vector2(2) == 6);
+
+			}
+
+		}
+
+	}
+
+}

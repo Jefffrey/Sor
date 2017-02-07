@@ -41,6 +41,13 @@ namespace sor {
 	template<typename Type, std::size_t... Dims>
 	struct tensor_facade {
 
+	private:
+
+		using container_type = std::array<Type, detail::multiply<Dims...>::value>;
+		container_type array;
+
+	public:
+
 		/* Regular default, copy and move constructors work as you would expect.
 		*/
 		tensor_facade() = default;
@@ -58,6 +65,21 @@ namespace sor {
 		*/
 		tensor_facade& operator=(tensor_facade const&) = default;
 		tensor_facade& operator=(tensor_facade&&) = default;
+
+		/* Useful type definitions;
+		*/
+
+		/* Iterators */
+		using iterator = typename container_type::iterator;
+		using const_iterator = typename container_type::const_iterator;
+
+		constexpr iterator begin() { return array.begin(); }
+		constexpr const_iterator begin() const { return array.begin(); }
+		constexpr const_iterator cbegin() const { return array.cbegin(); }
+
+		constexpr iterator end() { return array.end(); }
+		constexpr const_iterator end() const { return array.end(); }
+		constexpr const_iterator cend() const { return array.cend(); }
 
 		/* Element access operator. It access the member based on the given indexes.
 		 * Example:
@@ -87,10 +109,6 @@ namespace sor {
 			auto index = detail::flatten_indexes<Dims...>(args...);
 			return array[index];
 		}
-
-	private:
-
-		std::array<Type, detail::multiply<Dims...>::value> array;
 
 	};
 

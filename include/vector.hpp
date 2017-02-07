@@ -20,12 +20,26 @@ namespace sor {
 		Type& operator[](std::size_t i) { return (*this)(i); }
 		Type const& operator[](std::size_t i) const { return (*this)(i); }
 
-		/* Vector Addition.
+		/* Vector addition.
 		*/
 		template<typename OtherType>
 		auto& operator+=(vector<OtherType, N> const& rhs) {
-			for (std::size_t i = 0; i < N; i++) {
-				(*this)[i] += rhs[i];
+			auto l = this->begin();
+			auto r = rhs.begin();
+			for (; l < this->end() && r < rhs.end(); ++l, ++r) {
+				*l += *r;
+			}
+			return (*this);
+		}
+
+		/* Vector subtraction.
+		*/
+		template<typename OtherType>
+		auto& operator-=(vector<OtherType, N> const& rhs) {
+			auto l = this->begin();
+			auto r = rhs.begin();
+			for (; l < this->end() && r < rhs.end(); ++l, ++r) {
+				*l -= *r;
 			}
 			return (*this);
 		}

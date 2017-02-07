@@ -132,3 +132,110 @@ SCENARIO("tensor access operator", "[tensor]") {
 	}
 
 }
+
+SCENARIO("tensor iterators", "[tensor]") {
+
+	GIVEN("a non constant tensor") {
+
+		std::initializer_list<int> elements = {
+			4, 5, 7, 2,
+			45, 7, 23, 21, 
+			98, 3, 56, 12
+		};
+		sor::tensor<int, 3, 4> tensor(elements);
+
+		WHEN("we access its elements via iterators") {
+
+			auto es = elements.begin();
+			auto ts = tensor.begin();
+
+			THEN("we get them in the order given at construction") {
+
+				for (; es < elements.end() && ts < tensor.end(); ++es, ++ts) {
+					REQUIRE(*es == *ts);
+				}
+
+			}
+
+		}
+
+		WHEN("we access its elements via constant iterators") {
+
+			auto es = elements.begin();
+			auto ts = tensor.cbegin();
+
+			THEN("we get them in the order given at construction") {
+
+				for (; es < elements.end() && ts < tensor.cend(); ++es, ++ts) {
+					REQUIRE(*es == *ts);
+				}
+
+			}
+
+			THEN("the iterator type is constant") {
+
+				constexpr bool is_constant_iterator = std::is_same<
+					decltype(tensor.cbegin()), 
+					sor::tensor<int, 3, 4>::const_iterator
+				>::value;
+				REQUIRE(is_constant_iterator);
+
+			}
+
+			THEN("the reference from the iterator is constant") {
+
+				constexpr bool is_constant_value = std::is_same<
+					decltype(*(tensor.cbegin())), 
+					int const&
+				>::value;
+				REQUIRE(is_constant_value);
+
+			}
+
+		}
+
+		WHEN("we modify its elements via iterators") {
+
+			for (auto& i : tensor) {
+				i = 0;
+			}
+
+			THEN("they are modified in the tensor") {
+
+				for (auto const& i : tensor) {
+					REQUIRE(i == 0);
+				}
+
+			}
+
+		}
+
+	}
+
+	GIVEN("a constant tensor") {
+
+		std::initializer_list<int> elements = {
+			4, 5, 7, 2,
+			45, 7, 23, 21, 
+			98, 3, 56, 12
+		};
+		sor::tensor<int, 3, 4> const tensor(elements);
+
+		WHEN("we access its elements via iterators") {
+
+			auto es = elements.begin();
+			auto ts = tensor.begin();
+
+			THEN("we get them in the order given at construction") {
+
+				for (; es < elements.end() && ts < tensor.end(); ++es, ++ts) {
+					REQUIRE(*es == *ts);
+				}
+
+			}
+
+		}
+
+	}
+
+}
