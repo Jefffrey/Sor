@@ -54,6 +54,11 @@ namespace sor {
 		/* Type definitions
 		*/
 		using value_type = Type;
+		using reference = Type&;
+		using const_reference = Type const&;
+
+		using difference_type = typename container_type::difference_type;
+		using size_type = typename container_type::size_type;
 
 		/* Regular default, copy and move constructors work as you would expect.
 		*/

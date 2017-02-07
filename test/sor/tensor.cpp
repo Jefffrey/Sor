@@ -61,7 +61,7 @@ SCENARIO("tensor extent query", "[tensor]") {
 
 }
 
-SCENARIO("tensor type definitions", "[tensor]") {
+SCENARIO("tensor value type definitions", "[tensor]") {
 
 	GIVEN("a tensor type") {
 
@@ -76,6 +76,38 @@ SCENARIO("tensor type definitions", "[tensor]") {
 				constexpr bool are_equal = std::is_same<
 					type,
 					unsigned int
+				>::value;
+				REQUIRE(are_equal);
+
+			}
+
+		}
+
+		WHEN("we query its reference type") {
+
+			using type = tensor::reference;
+
+			THEN("we get the reference type to the type of the elements") {
+
+				constexpr bool are_equal = std::is_same<
+					type,
+					unsigned int&
+				>::value;
+				REQUIRE(are_equal);
+
+			}
+
+		}
+
+		WHEN("we query its constant reference type") {
+
+			using type = tensor::const_reference;
+
+			THEN("we get the constant reference type to the type of the elements") {
+
+				constexpr bool are_equal = std::is_same<
+					type,
+					unsigned int const&
 				>::value;
 				REQUIRE(are_equal);
 
