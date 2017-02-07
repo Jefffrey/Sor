@@ -274,3 +274,165 @@ SCENARIO("tensor iterators", "[tensor]") {
 	}
 
 }
+
+SCENARIO("tensor equality", "[tensor]") {
+
+	GIVEN("two equal tensors") {
+
+		sor::tensor<int, 4, 3> tensor1({
+			3, 6, 2,
+			5, 7, 4,
+			7, 9, 23,
+			34, 5, 12
+		});
+		sor::tensor<int, 4, 3> tensor2({
+			3, 6, 2,
+			5, 7, 4,
+			7, 9, 23,
+			34, 5, 12
+		});
+
+		WHEN("we test for equality") {
+
+			bool are_equal = tensor1 == tensor2;
+
+			THEN("the result is positive") {
+
+				REQUIRE(are_equal);
+
+			}
+
+		}
+
+		WHEN("we test for inequality") {
+
+			bool are_unequal = tensor1 != tensor2;
+
+			THEN("the result is negative") {
+
+				REQUIRE(!are_unequal);
+
+			}
+
+		}
+
+	}
+
+	GIVEN("two different tensors") {
+
+		sor::tensor<int, 4, 3> tensor1({
+			3, 6, 2,
+			5, 7, 4,
+			7, 9, 23,
+			34, 5, 12
+		});
+		sor::tensor<int, 4, 3> tensor2({
+			3, 6, 1,
+			5, 4, 4,
+			2, 9, 23,
+			34, 7, 12
+		});
+
+		WHEN("we test for equality") {
+
+			bool are_equal = tensor1 == tensor2;
+
+			THEN("the result is negative") {
+
+				REQUIRE(!are_equal);
+
+			}
+
+		}
+
+		WHEN("we test for inequality") {
+
+			bool are_unequal = tensor1 != tensor2;
+
+			THEN("the result is positive") {
+
+				REQUIRE(are_unequal);
+
+			}
+
+		}
+
+	}
+
+	GIVEN("two tensors with different orders") {
+
+		sor::tensor<int, 4> tensor1({ 3, 6, 2, 5 });
+		sor::tensor<int, 4, 3> tensor2({
+			3, 6, 1,
+			5, 4, 4,
+			2, 9, 23,
+			34, 7, 12
+		});
+
+		WHEN("we test for equality") {
+
+			constexpr bool are_equal = tensor1 == tensor2;
+
+			THEN("the result is negative") {
+
+				REQUIRE(!are_equal);
+
+			}
+
+		}
+
+		WHEN("we test for inequality") {
+
+			constexpr bool are_unequal = tensor1 != tensor2;
+
+			THEN("the result is positive") {
+
+				REQUIRE(are_unequal);
+
+			}
+
+		}
+
+	}
+
+	GIVEN("two tensors with different dimensionality") {
+
+		sor::tensor<int, 3, 4> tensor1({
+			3, 6, 1, 5, 
+			4, 4, 2, 9, 
+			23, 34, 7, 12
+		});
+		sor::tensor<int, 4, 3> tensor2({
+			3, 6, 1,
+			5, 4, 4,
+			2, 9, 23,
+			34, 7, 12
+		});
+
+		WHEN("we test for equality") {
+
+			constexpr bool are_equal = tensor1 == tensor2;
+
+			THEN("the result is negative") {
+
+				REQUIRE(!are_equal);
+
+			}
+
+		}
+
+		WHEN("we test for inequality") {
+
+			constexpr bool are_unequal = tensor1 != tensor2;
+
+			THEN("the result is positive") {
+
+				REQUIRE(are_unequal);
+
+			}
+
+		}
+
+	}
+
+}

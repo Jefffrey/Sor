@@ -34,4 +34,26 @@ namespace sor {
 	struct extent<tensor<Type, First, Dims...>, 0>
 		: public std::integral_constant<std::size_t, First> {};
 
+	/* Equality operators
+	*/
+	template<typename LhsType, typename RhsType, std::size_t... LhsDims, std::size_t... RhsDims>
+	constexpr bool operator==(tensor<LhsType, LhsDims...> const&, tensor<RhsType, RhsDims...> const&) {
+		return false;
+	}
+
+	template<typename LhsType, typename RhsType, std::size_t... CommonDims>
+	bool operator==(tensor<LhsType, CommonDims...> const& lhs, tensor<RhsType, CommonDims...> const& rhs) {
+		return std::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template<typename LhsType, typename RhsType, std::size_t... LhsDims, std::size_t... RhsDims>
+	constexpr bool operator!=(tensor<LhsType, LhsDims...> const&, tensor<RhsType, RhsDims...> const&) {
+		return true;
+	}
+
+	template<typename LhsType, typename RhsType, std::size_t... CommonDims>
+	bool operator!=(tensor<LhsType, CommonDims...> const& lhs, tensor<RhsType, CommonDims...> const& rhs) {
+		return !(lhs == rhs);
+	}
+
 }

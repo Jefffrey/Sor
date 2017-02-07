@@ -45,6 +45,7 @@ namespace sor {
 
 		using tensor_facade_type = tensor_facade<Type, Dims...>;
 		using container_type = std::array<Type, detail::multiply<Dims...>::value>;
+		
 		container_type array;
 
 	public:
@@ -66,9 +67,6 @@ namespace sor {
 		*/
 		tensor_facade& operator=(tensor_facade const&) = default;
 		tensor_facade& operator=(tensor_facade&&) = default;
-
-		/* Useful type definitions;
-		*/
 
 		/* Iterators */
 		using iterator = typename container_type::iterator;
