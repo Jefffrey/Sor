@@ -1,4 +1,5 @@
 #include <type_traits>
+#include <algorithm>
 
 #include "../../deps/catch/include/catch.hpp"
 #include "../../include/tensor.hpp"
@@ -146,14 +147,14 @@ SCENARIO("tensor iterators", "[tensor]") {
 
 		WHEN("we access its elements via iterators") {
 
-			auto es = elements.begin();
-			auto ts = tensor.begin();
+			bool are_equal = std::equal(
+				tensor.begin(), tensor.end(), 
+				elements.begin(), elements.end()
+			);
 
 			THEN("we get them in the order given at construction") {
 
-				for (; es < elements.end() && ts < tensor.end(); ++es, ++ts) {
-					REQUIRE(*es == *ts);
-				}
+				REQUIRE(are_equal);
 
 			}
 
@@ -161,14 +162,14 @@ SCENARIO("tensor iterators", "[tensor]") {
 
 		WHEN("we access its elements via constant iterators") {
 
-			auto es = elements.begin();
-			auto ts = tensor.cbegin();
+			bool are_equal = std::equal(
+				tensor.cbegin(), tensor.cend(), 
+				elements.begin(), elements.end()
+			);
 
 			THEN("we get them in the order given at construction") {
 
-				for (; es < elements.end() && ts < tensor.cend(); ++es, ++ts) {
-					REQUIRE(*es == *ts);
-				}
+				REQUIRE(are_equal);
 
 			}
 
@@ -196,15 +197,20 @@ SCENARIO("tensor iterators", "[tensor]") {
 
 		WHEN("we modify its elements via iterators") {
 
-			for (auto& i : tensor) {
-				i = 0;
-			}
+			std::initializer_list<int> new_elements = {
+				6, 1, 34, 0,
+				-3, 5, 34, -2, 
+				-76, 234, 12, -12
+			};
+			std::copy(new_elements.begin(), new_elements.end(), tensor.begin());
 
 			THEN("they are modified in the tensor") {
 
-				for (auto const& i : tensor) {
-					REQUIRE(i == 0);
-				}
+				bool are_equal = std::equal(
+					tensor.cbegin(), tensor.cend(), 
+					new_elements.begin(), new_elements.end()
+				);
+				REQUIRE(are_equal);
 
 			}
 
@@ -223,14 +229,14 @@ SCENARIO("tensor iterators", "[tensor]") {
 
 		WHEN("we access its elements via iterators") {
 
-			auto es = elements.begin();
-			auto ts = tensor.begin();
+			bool are_equal = std::equal(
+				tensor.begin(), tensor.end(), 
+				elements.begin(), elements.end()
+			);
 
 			THEN("we get them in the order given at construction") {
 
-				for (; es < elements.end() && ts < tensor.end(); ++es, ++ts) {
-					REQUIRE(*es == *ts);
-				}
+				REQUIRE(are_equal);
 
 			}
 
@@ -238,14 +244,14 @@ SCENARIO("tensor iterators", "[tensor]") {
 
 		WHEN("we access its elements via constant iterators") {
 
-			auto es = elements.begin();
-			auto ts = tensor.cbegin();
+			bool are_equal = std::equal(
+				tensor.cbegin(), tensor.cend(), 
+				elements.begin(), elements.end()
+			);
 
 			THEN("we get them in the order given at construction") {
 
-				for (; es < elements.end() && ts < tensor.cend(); ++es, ++ts) {
-					REQUIRE(*es == *ts);
-				}
+				REQUIRE(are_equal);
 
 			}
 
