@@ -584,7 +584,7 @@ SCENARIO("tensor swap", "[tensor]") {
 
 SCENARIO("tensor size") {
 
-	GIVEN("a tensor") {
+	GIVEN("a non empty tensor") {
 
 		sor::tensor<int, 3, 5, 2> tensor;
 
@@ -619,6 +619,48 @@ SCENARIO("tensor size") {
 			THEN("we get false") {
 
 				REQUIRE(!is_empty);
+
+			}
+
+		}
+
+	}
+
+	GIVEN("an empty tensor") {
+
+		sor::tensor<int, 0, 1> tensor;
+
+		WHEN("we query for its size") {
+
+			constexpr auto size = tensor.size();
+
+			THEN("we get 0") {
+
+				REQUIRE(size == 0);
+
+			}
+
+		}
+
+		WHEN("we query for its maximum size") {
+
+			constexpr auto max_size = tensor.max_size();
+
+			THEN("we get 0") {
+
+				REQUIRE(max_size == 0);
+
+			}
+
+		}
+
+		WHEN("we query whether it's empty or not") {
+
+			constexpr auto is_empty = tensor.empty();
+
+			THEN("we get true") {
+
+				REQUIRE(is_empty);
 
 			}
 
