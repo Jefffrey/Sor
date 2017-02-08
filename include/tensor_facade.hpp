@@ -57,11 +57,23 @@ namespace sor {
 		using reference = Type&;
 		using const_reference = Type const&;
 
+		/* Friend related tensor facade classes
+		*/
+		template<typename OtherType, std::size_t... OtherDims>
+		friend struct tensor_facade;
+
 		/* Regular default, copy and move constructors work as you would expect.
 		*/
 		tensor_facade() = default;
 		tensor_facade(tensor_facade const&) = default;
 		tensor_facade(tensor_facade&&) = default;
+
+		/* Templated copy constructor
+		*/
+		template<typename OtherType>
+		tensor_facade(tensor_facade<OtherType, Dims...> const& other) {
+			std::copy(other.array.begin(), other.array.end(), array.begin());
+		}
 
 		/* Constructor that initializes the array as if you were to initialize an array of multiple
 		 * dimensions (left to right, top to bottom, front to back, etc...).

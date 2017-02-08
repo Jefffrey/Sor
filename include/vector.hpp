@@ -20,7 +20,7 @@ namespace sor {
 		Type& operator[](std::size_t i) { return (*this)(i); }
 		Type const& operator[](std::size_t i) const { return (*this)(i); }
 
-		/* Vector addition.
+		/* Vector sum.
 		*/
 		template<typename OtherType>
 		auto& operator+=(vector<OtherType, N> const& rhs) {
@@ -44,7 +44,7 @@ namespace sor {
 			return (*this);
 		}
 
-		/* Vector scalar product
+		/* Vector scalar product.
 		*/
 		template<typename OtherType>
 		auto& operator*=(OtherType const& rhs) {
@@ -54,7 +54,7 @@ namespace sor {
 			return (*this);
 		}
 
-		/* Vector scalar division
+		/* Vector scalar division.
 		*/
 		template<typename OtherType>
 		auto& operator/=(OtherType const& rhs) {
@@ -65,5 +65,55 @@ namespace sor {
 		}
 
 	};
+
+	/* Non member function vector sum.
+	*/
+	template<typename LhsType, typename RhsType, std::size_t N>
+	auto operator+(vector<LhsType, N> const& lhs, vector<RhsType, N> const& rhs) {
+		using result_type = vector<typename std::common_type<LhsType, RhsType>::type, N>;
+		result_type result(lhs);
+		result += rhs;
+		return result;
+	}
+
+	/* Non member function vector subtraction.
+	*/
+	template<typename LhsType, typename RhsType, std::size_t N>
+	auto operator-(vector<LhsType, N> const& lhs, vector<RhsType, N> const& rhs) {
+		using result_type = vector<typename std::common_type<LhsType, RhsType>::type, N>;
+		result_type result(lhs);
+		result -= rhs;
+		return result;
+	}
+
+	/* Non member function scalar multiplication.
+	*/
+	template<typename LhsType, std::size_t N, typename RhsType>
+	auto operator*(vector<LhsType, N> const& lhs, RhsType const& rhs) {
+		using result_type = vector<typename std::common_type<LhsType, RhsType>::type, N>;
+		result_type result(lhs);
+		result *= rhs;
+		return result;
+	}
+
+	template<typename LhsType, typename RhsType, std::size_t N>
+	auto operator*(LhsType const& lhs, vector<RhsType, N> const& rhs) {
+		using result_type = vector<typename std::common_type<LhsType, RhsType>::type, N>;
+		result_type result(rhs);
+		result *= lhs;
+		return result;
+	}
+
+	/* Non member function scalar division.
+	 * Notice: `scalar / vector` is intentionally not provided given that it doesn't
+	 * have clear semantic in this context.
+	*/
+	template<typename LhsType, std::size_t N, typename RhsType>
+	auto operator/(vector<LhsType, N> const& lhs, RhsType const& rhs) {
+		using result_type = vector<typename std::common_type<LhsType, RhsType>::type, N>;
+		result_type result(lhs);
+		result /= rhs;
+		return result;
+	}
 	
 }

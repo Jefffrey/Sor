@@ -63,7 +63,7 @@ SCENARIO("vector addition", "[vector]") {
 		sor::vector<int, 3> vector1({
 			3, 6, 1
 		});
-		sor::vector<int, 3> vector2({
+		sor::vector<long, 3> vector2({
 			7, 3, 6
 		});
 
@@ -89,6 +89,30 @@ SCENARIO("vector addition", "[vector]") {
 
 		}
 
+		WHEN("we add two") {
+
+			auto result = vector1 + vector2;
+
+			THEN("the result is correct") {
+
+				REQUIRE(result(0) == 10);
+				REQUIRE(result(1) == 9);
+				REQUIRE(result(2) == 7);
+
+			}
+
+			THEN("the result type is the common type between the two value types") {
+
+				constexpr bool is_long = std::is_same<
+					decltype(result)::value_type,
+					long
+				>::value;
+				REQUIRE(is_long);
+
+			}
+
+		}
+
 	}
 
 }
@@ -100,7 +124,7 @@ SCENARIO("vector subtraction", "[vector]") {
 		sor::vector<int, 3> vector1({
 			3, 6, 1
 		});
-		sor::vector<int, 3> vector2({
+		sor::vector<long, 3> vector2({
 			7, 3, 6
 		});
 
@@ -126,6 +150,30 @@ SCENARIO("vector subtraction", "[vector]") {
 
 		}
 
+		WHEN("we subtract two") {
+
+			auto result = vector1 - vector2;
+
+			THEN("the result is correct") {
+
+				REQUIRE(result[0] == -4);
+				REQUIRE(result[1] == 3);
+				REQUIRE(result[2] == -5);
+
+			}
+
+			THEN("the result type is the common type between the two value types") {
+
+				constexpr bool is_long = std::is_same<
+					decltype(result)::value_type,
+					long
+				>::value;
+				REQUIRE(is_long);
+
+			}
+
+		}
+
 	}
 
 }
@@ -138,7 +186,7 @@ SCENARIO("vector scalar product", "[vector]") {
 			4, 7, 2, -2
 		});
 
-		WHEN("we multiply it for a scalar") {
+		WHEN("we multiply it for a scalar and store the result in the same vector") {
 
 			vector1 *= 3;
 
@@ -148,6 +196,56 @@ SCENARIO("vector scalar product", "[vector]") {
 				REQUIRE(vector1[1] == 21);
 				REQUIRE(vector1[2] == 6);
 				REQUIRE(vector1[3] == -6);
+
+			}
+
+		}
+
+		WHEN("we multiply it for a scalar on the right hand side") {
+
+			auto result = vector1 * -2l;
+
+			THEN("the result is correct") {
+
+				REQUIRE(result[0] == -8);
+				REQUIRE(result[1] == -14);
+				REQUIRE(result[2] == -4);
+				REQUIRE(result[3] == 4);
+
+			}
+
+			THEN("the result type is the common type between the two value types") {
+
+				constexpr bool is_long = std::is_same<
+					decltype(result)::value_type,
+					long
+				>::value;
+				REQUIRE(is_long);
+
+			}
+
+		}
+
+		WHEN("we multiply it for a scalar on the left hand side") {
+
+			auto result = -2l * vector1;
+
+			THEN("the result is correct") {
+
+				REQUIRE(result[0] == -8);
+				REQUIRE(result[1] == -14);
+				REQUIRE(result[2] == -4);
+				REQUIRE(result[3] == 4);
+
+			}
+
+			THEN("the result type is the common type between the two value types") {
+
+				constexpr bool is_long = std::is_same<
+					decltype(result)::value_type,
+					long
+				>::value;
+				REQUIRE(is_long);
 
 			}
 
@@ -165,7 +263,7 @@ SCENARIO("vector scalar division", "[vector]") {
 			4, 7, 2, -2
 		});
 
-		WHEN("we multiply it for a scalar") {
+		WHEN("we divide for a scalar and store the result in the same vector") {
 
 			vector1 /= 2;
 
@@ -175,6 +273,31 @@ SCENARIO("vector scalar division", "[vector]") {
 				REQUIRE(vector1[1] == Approx(3.5));
 				REQUIRE(vector1[2] == Approx(1));
 				REQUIRE(vector1[3] == Approx(-1));
+
+			}
+
+		}
+
+		WHEN("we divide it for a scalar on the right hand side") {
+
+			auto result = vector1 / -2l;
+
+			THEN("the result is correct") {
+
+				REQUIRE(result[0] == Approx(-2));
+				REQUIRE(result[1] == Approx(-3.5));
+				REQUIRE(result[2] == Approx(-1));
+				REQUIRE(result[3] == Approx(1));
+
+			}
+
+			THEN("the result type is the common type between the two value types") {
+
+				constexpr bool is_long = std::is_same<
+					decltype(result)::value_type,
+					double
+				>::value;
+				REQUIRE(is_long);
 
 			}
 
