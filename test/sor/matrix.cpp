@@ -5,7 +5,7 @@ SCENARIO("matrix addition", "[matrix]") {
 
 	GIVEN("few matrices") {
 
-		sor::matrix<int, 2, 3> matrix1({
+		sor::matrix<long, 2, 3> matrix1({
 			3, 6, 1,
 			6, 4, 2
 		});
@@ -38,6 +38,33 @@ SCENARIO("matrix addition", "[matrix]") {
 
 		}
 
+		WHEN("we sum two matrices") {
+
+			auto result = matrix1 + matrix2;
+
+			THEN("the result is correct") {
+
+				REQUIRE(result(0, 0) == 10);
+				REQUIRE(result(0, 1) == 9);
+				REQUIRE(result(0, 2) == 7);
+				REQUIRE(result(1, 0) == 7);
+				REQUIRE(result(1, 1) == 16);
+				REQUIRE(result(1, 2) == 36);
+
+			}
+
+			THEN("the result type is the common type between the two value types") {
+
+				constexpr bool is_long = std::is_same<
+					decltype(result)::value_type,
+					long
+				>::value;
+				REQUIRE(is_long);
+
+			}
+
+		}
+
 	}
 
 }
@@ -46,7 +73,7 @@ SCENARIO("matrix subtraction", "[matrix]") {
 
 	GIVEN("few matrices") {
 
-		sor::matrix<int, 2, 3> matrix1({
+		sor::matrix<long, 2, 3> matrix1({
 			3, 6, 1,
 			6, 4, 2
 		});
@@ -75,6 +102,33 @@ SCENARIO("matrix subtraction", "[matrix]") {
 				REQUIRE(matrix2(1, 0) == 1);
 				REQUIRE(matrix2(1, 1) == 12);
 				REQUIRE(matrix2(1, 2) == 34);
+			}
+
+		}
+
+		WHEN("we subtract two matrices") {
+
+			auto result = matrix1 - matrix2;
+
+			THEN("the result is correct") {
+
+				REQUIRE(result(0, 0) == -4);
+				REQUIRE(result(0, 1) == 3);
+				REQUIRE(result(0, 2) == -5);
+				REQUIRE(result(1, 0) == 5);
+				REQUIRE(result(1, 1) == -8);
+				REQUIRE(result(1, 2) == -32);
+
+			}
+
+			THEN("the result type is the common type between the two value types") {
+
+				constexpr bool is_long = std::is_same<
+					decltype(result)::value_type,
+					long
+				>::value;
+				REQUIRE(is_long);
+
 			}
 
 		}

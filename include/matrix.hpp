@@ -15,7 +15,7 @@ namespace sor {
 		*/
 		using tensor_facade<Type, N, M>::tensor_facade;
 
-		/* Matrix addition.
+		/* Matrix sum.
 		*/
 		template<typename OtherType>
 		auto& operator+=(matrix<OtherType, N, M> const& rhs) {
@@ -40,5 +40,25 @@ namespace sor {
 		}
 
 	};
+
+	/* Non member function matrix sum.
+	*/
+	template<typename LhsType, typename RhsType, std::size_t N, std::size_t M>
+	auto operator+(matrix<LhsType, N, M> const& lhs, matrix<RhsType, N, M> const& rhs) {
+		using result_type = matrix<typename std::common_type<LhsType, RhsType>::type, N, M>;
+		result_type result(lhs);
+		result += rhs;
+		return result;
+	}
+
+	/* Non member function matrix subtraction.
+	*/
+	template<typename LhsType, typename RhsType, std::size_t N, std::size_t M>
+	auto operator-(matrix<LhsType, N, M> const& lhs, matrix<RhsType, N, M> const& rhs) {
+		using result_type = matrix<typename std::common_type<LhsType, RhsType>::type, N, M>;
+		result_type result(lhs);
+		result -= rhs;
+		return result;
+	}
 
 }
