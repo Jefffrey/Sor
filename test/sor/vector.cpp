@@ -60,10 +60,10 @@ SCENARIO("vector addition", "[vector]") {
 
 	GIVEN("few non constant vectors") {
 
-		sor::vector<int, 3> vector1({
+		sor::vector<long, 3> vector1({
 			3, 6, 1
 		});
-		sor::vector<long, 3> vector2({
+		sor::vector<int, 3> vector2({
 			7, 3, 6
 		});
 
@@ -121,10 +121,10 @@ SCENARIO("vector subtraction", "[vector]") {
 
 	GIVEN("few non constant vectors") {
 
-		sor::vector<int, 3> vector1({
+		sor::vector<long, 3> vector1({
 			3, 6, 1
 		});
-		sor::vector<long, 3> vector2({
+		sor::vector<int, 3> vector2({
 			7, 3, 6
 		});
 
@@ -293,11 +293,11 @@ SCENARIO("vector scalar division", "[vector]") {
 
 			THEN("the result type is the common type between the two value types") {
 
-				constexpr bool is_long = std::is_same<
+				constexpr bool is_double = std::is_same<
 					decltype(result)::value_type,
 					double
 				>::value;
-				REQUIRE(is_long);
+				REQUIRE(is_double);
 
 			}
 
