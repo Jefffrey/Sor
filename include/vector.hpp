@@ -44,6 +44,26 @@ namespace sor {
 			return (*this);
 		}
 
+		/* Vector scalar product
+		*/
+		template<typename OtherType>
+		auto& operator*=(OtherType const& rhs) {
+			for (auto& i : (*this)) {
+				i *= rhs;
+			}
+			return (*this);
+		}
+
+		/* Vector scalar division
+		*/
+		template<typename OtherType>
+		auto& operator/=(OtherType const& rhs) {
+			for (auto& i : (*this)) {
+				i /= rhs;
+			}
+			return (*this);
+		}
+
 	};
 	
 }

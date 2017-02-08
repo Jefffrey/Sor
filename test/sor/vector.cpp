@@ -129,3 +129,57 @@ SCENARIO("vector subtraction", "[vector]") {
 	}
 
 }
+
+SCENARIO("vector scalar product", "[vector]") {
+
+	GIVEN("a non constant vector") {
+
+		sor::vector<int, 4> vector1({
+			4, 7, 2, -2
+		});
+
+		WHEN("we multiply it for a scalar") {
+
+			vector1 *= 3;
+
+			THEN("we get the scalar product") {
+
+				REQUIRE(vector1[0] == 12);
+				REQUIRE(vector1[1] == 21);
+				REQUIRE(vector1[2] == 6);
+				REQUIRE(vector1[3] == -6);
+
+			}
+
+		}
+
+	}
+
+}
+
+SCENARIO("vector scalar division", "[vector]") {
+
+	GIVEN("a non constant vector") {
+
+		sor::vector<double, 4> vector1({
+			4, 7, 2, -2
+		});
+
+		WHEN("we multiply it for a scalar") {
+
+			vector1 /= 2;
+
+			THEN("we get the scalar product") {
+
+				REQUIRE(vector1[0] == Approx(2));
+				REQUIRE(vector1[1] == Approx(3.5));
+				REQUIRE(vector1[2] == Approx(1));
+				REQUIRE(vector1[3] == Approx(-1));
+
+			}
+
+		}
+
+	}
+
+}
