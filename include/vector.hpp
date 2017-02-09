@@ -1,5 +1,8 @@
 #pragma once
 
+#include <algorithm>
+#include <numeric>
+
 #include "tensor_facade.hpp"
 #include "tensor.hpp"
 #include "algebra.hpp"
@@ -56,5 +59,15 @@ namespace sor {
 	template<typename Type, std::size_t N,
 		typename std::enable_if<(N > 3), int>::type = 0>
 	auto& w(vector<Type, N> const& vector) { return vector[3]; }
+
+	/* Euclidean norm (magnitude).
+	 * The euclidean norm is the length of a vector.
+	*/
+	template<typename Type, std::size_t N>
+	Type euclidean_norm(vector<Type, N> const& vec) {
+		auto acc_fn = [](Type const& init, Type const& curr) { return init + std::pow(curr, 2); };
+		auto sum = std::accumulate(vec.begin(), vec.end(), Type(), acc_fn);
+		return std::sqrt(sum);
+	}
 	
 }

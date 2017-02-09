@@ -238,3 +238,25 @@ SCENARIO("vector x, y, z, w element access", "[vector]") {
 	}
 
 }
+
+SCENARIO("euclidean norm", "[vector]") {
+
+	GIVEN("a vector") {
+
+		sor::vector<double, 2> vector({ 28.0, 65.0 });
+
+		WHEN("we calculate the euclidean norm") {
+
+			auto res = sor::euclidean_norm(vector);
+
+			THEN("the result is the length of the vector") {
+
+				REQUIRE(res == Approx(70.7742891169));
+
+			}
+
+		}
+
+	}
+
+}
