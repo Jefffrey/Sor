@@ -3,7 +3,7 @@
 #include "../../include/matrix.hpp"
 #include "../../include/algebra.hpp"
 
-SCENARIO("vector addition", "[vector]") {
+SCENARIO("vector addition", "[algebra]") {
 
 	GIVEN("few non constant vectors") {
 
@@ -64,7 +64,7 @@ SCENARIO("vector addition", "[vector]") {
 
 }
 
-SCENARIO("vector subtraction", "[vector]") {
+SCENARIO("vector subtraction", "[algebra]") {
 
 	GIVEN("few non constant vectors") {
 
@@ -125,7 +125,7 @@ SCENARIO("vector subtraction", "[vector]") {
 
 }
 
-SCENARIO("vector scalar product", "[vector]") {
+SCENARIO("vector scalar product", "[algebra]") {
 
 	GIVEN("a non constant vector") {
 
@@ -202,7 +202,7 @@ SCENARIO("vector scalar product", "[vector]") {
 
 }
 
-SCENARIO("vector scalar division", "[vector]") {
+SCENARIO("vector scalar division", "[algebra]") {
 
 	GIVEN("a non constant vector") {
 
@@ -390,7 +390,7 @@ SCENARIO("matrix subtraction", "[matrix]") {
 
 }
 
-SCENARIO("matrix scalar product", "[vector]") {
+SCENARIO("matrix scalar product", "[algebra]") {
 
 	GIVEN("a non constant matrix") {
 
@@ -480,7 +480,7 @@ SCENARIO("matrix scalar product", "[vector]") {
 
 }
 
-SCENARIO("matrix scalar division", "[vector]") {
+SCENARIO("matrix scalar division", "[algebra]") {
 
 	GIVEN("a non constant matrix") {
 
