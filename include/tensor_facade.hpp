@@ -37,7 +37,7 @@ namespace sor {
 
 	}
 
-	/* The tansor class.
+	/* The tensor class.
 	*/
 	template<typename Type, std::size_t... Dims>
 	struct tensor_facade {
