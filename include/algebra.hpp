@@ -4,6 +4,15 @@
 
 namespace sor {
 
+	/* Vector & matrix nagation.
+	*/
+	template<typename Type, std::size_t... Dims,
+		typename std::enable_if<sizeof...(Dims) < 3, int>::type = 0>
+	auto operator-(tensor<Type, Dims...> lhs) {
+		std::transform(lhs.begin(), lhs.end(), lhs.begin(), std::negate<void>());
+		return lhs;
+	}
+
 	/* Vector & matrix sum.
 	*/
 	template<typename LhsType, typename RhsType, std::size_t... Dims,

@@ -3,6 +3,29 @@
 #include "../../include/matrix.hpp"
 #include "../../include/algebra.hpp"
 
+SCENARIO("vector negation", "[algebra]") {
+
+	GIVEN("a vector") {
+
+		sor::vector<int, 3> vector({ 1, -2, 3 });
+
+		WHEN("we negate it") {
+
+			auto result = -vector;
+
+			THEN("the result is the negation of its components") {
+
+				sor::vector<int, 3> expected({ -1, 2, -3 });
+				REQUIRE(result == expected);
+
+			}
+
+		}
+
+	}
+
+}
+
 SCENARIO("vector addition", "[algebra]") {
 
 	GIVEN("few non constant vectors") {
@@ -245,6 +268,37 @@ SCENARIO("vector scalar division", "[algebra]") {
 					double
 				>::value;
 				REQUIRE(is_double);
+
+			}
+
+		}
+
+	}
+
+}
+
+SCENARIO("matrix negation", "[algebra]") {
+
+	GIVEN("a matrix") {
+
+		sor::matrix<int, 3, 2> matrix({ 
+			1, -2, 
+			3, 4,
+			-6, -7 
+		});
+
+		WHEN("we negate it") {
+
+			auto result = -matrix;
+
+			THEN("the result is the negation of its components") {
+
+				sor::matrix<int, 3, 2> expected({ 
+					-1, 2, 
+					-3, -4,
+					6, 7 
+				});
+				REQUIRE(result == expected);
 
 			}
 
