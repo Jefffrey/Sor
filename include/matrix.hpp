@@ -15,34 +15,16 @@ namespace sor {
 		*/
 		using tensor_facade<Type, N, M>::tensor_facade;
 
-		/* Matrix sum.
-		*/
-		template<typename OtherType>
-		auto& operator+=(matrix<OtherType, N, M> const& rhs) {
-			auto l = this->begin();
-			auto r = rhs.begin();
-			for (; l < this->end() && r < rhs.end(); ++l, ++r) {
-				*l += *r;
-			}
-			return (*this);
-		}
-
-		/* Matrix subtraction.
-		*/
-		template<typename OtherType>
-		auto& operator-=(matrix<OtherType, N, M> const& rhs) {
-			auto l = this->begin();
-			auto r = rhs.begin();
-			for (; l < this->end() && r < rhs.end(); ++l, ++r) {
-				*l -= *r;
-			}
-			return (*this);
-		}
-
 	};
 
-	/* Non member function matrix sum.
+	/* Matrix sum.
 	*/
+	template<typename LhsType, typename RhsType, std::size_t N, std::size_t M>
+	auto& operator+=(matrix<LhsType, N, M>& lhs, matrix<RhsType, N, M> const& rhs) {
+		std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), std::plus<void>());
+		return lhs;
+	}
+
 	template<typename LhsType, typename RhsType, std::size_t N, std::size_t M>
 	auto operator+(matrix<LhsType, N, M> const& lhs, matrix<RhsType, N, M> const& rhs) {
 		using result_type = matrix<typename std::common_type<LhsType, RhsType>::type, N, M>;
@@ -51,8 +33,14 @@ namespace sor {
 		return result;
 	}
 
-	/* Non member function matrix subtraction.
+	/* Matrix subtraction.
 	*/
+	template<typename LhsType, typename RhsType, std::size_t N, std::size_t M>
+	auto& operator-=(matrix<LhsType, N, M>& lhs, matrix<RhsType, N, M> const& rhs) {
+		std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), std::minus<void>());
+		return lhs;
+	}
+
 	template<typename LhsType, typename RhsType, std::size_t N, std::size_t M>
 	auto operator-(matrix<LhsType, N, M> const& lhs, matrix<RhsType, N, M> const& rhs) {
 		using result_type = matrix<typename std::common_type<LhsType, RhsType>::type, N, M>;
