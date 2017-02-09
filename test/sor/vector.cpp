@@ -258,7 +258,7 @@ SCENARIO("euclidean norm", "[vector]") {
 		}
 
 	}
-
+	
 }
 
 SCENARIO("euclidean distance", "[vector]") {

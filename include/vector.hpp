@@ -15,9 +15,10 @@ namespace sor {
 	template<typename Type, std::size_t N>
 	struct tensor<Type, N> : tensor_facade<Type, N> {
 
-		/* Inherit base constructors.
+		/* Inherit base constructors and assignment operators.
 		*/
 		using tensor_facade<Type, N>::tensor_facade;
+		using tensor_facade<Type, N>::operator=;
 
 		/* Vector subscript access.
 		*/

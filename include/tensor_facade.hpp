@@ -72,20 +72,35 @@ namespace sor {
 		*/
 		template<typename OtherType>
 		tensor_facade(tensor_facade<OtherType, Dims...> const& other) {
-			std::copy(other.array.begin(), other.array.end(), array.begin());
+			(*this) = other;
 		}
 
 		/* Constructor that initializes the array as if you were to initialize an array of multiple
 		 * dimensions (left to right, top to bottom, front to back, etc...).
 		*/
-		explicit tensor_facade(std::initializer_list<Type> const& list) {
-			std::copy(list.begin(), list.end(), array.begin());
+		template<typename OtherType>
+		explicit tensor_facade(std::initializer_list<OtherType> const& list) {
+			(*this) = list;
 		}
 
 		/* Copy and move assignment work as you would normally expect.
 		*/
 		tensor_facade& operator=(tensor_facade const&) = default;
 		tensor_facade& operator=(tensor_facade&&) = default;
+
+		/* Templated copy assignment operator
+		*/
+		template<typename OtherType>
+		tensor_facade& operator=(tensor_facade<OtherType, Dims...> const& other) {
+			std::copy(other.array.begin(), other.array.end(), array.begin());
+			return (*this);
+		}
+
+		template<typename OtherType>
+		tensor_facade& operator=(std::initializer_list<OtherType> const& list) {
+			std::copy(list.begin(), list.end(), array.begin());
+			return (*this);
+		}
 
 		/* Iterators 
 		*/

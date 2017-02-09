@@ -119,6 +119,164 @@ SCENARIO("tensor value type definitions", "[tensor]") {
 
 }
 
+SCENARIO("tensor constructors", "[tensor]") {
+
+	GIVEN("an initializer list") {
+
+		std::initializer_list<int> list({ 2, 3, 4, 5, 6, 7});
+
+		WHEN("we construct a tensor with said list") {
+
+			sor::tensor<long, 2, 3> tensor(list);
+
+			THEN("the tensor is filled with the elements of the list") {
+
+				REQUIRE(tensor(0, 0) == 2);
+				REQUIRE(tensor(0, 1) == 3);
+				REQUIRE(tensor(0, 2) == 4);
+				REQUIRE(tensor(1, 0) == 5);
+				REQUIRE(tensor(1, 1) == 6);
+				REQUIRE(tensor(1, 2) == 7);
+
+			}
+
+			THEN("the list remains unchanged") {
+
+				auto it = list.begin();
+				REQUIRE(*(it++) == 2);
+				REQUIRE(*(it++) == 3);
+				REQUIRE(*(it++) == 4);
+				REQUIRE(*(it++) == 5);
+				REQUIRE(*(it++) == 6);
+				REQUIRE(*(it++) == 7);
+
+			}
+
+		}
+
+	}
+
+	GIVEN("a tensor") {
+
+		sor::tensor<int, 2, 3> tensor1({
+			4, 5, 7,
+			45, 7, 23
+		});
+
+		WHEN("we construct one with another of the same dimensionality") {
+
+			sor::tensor<long, 2, 3> tensor2(tensor1);
+
+			THEN("one is copied into the other") {
+
+				REQUIRE(tensor2(0, 0) == 4);
+				REQUIRE(tensor2(0, 1) == 5);
+				REQUIRE(tensor2(0, 2) == 7);
+				REQUIRE(tensor2(1, 0) == 45);
+				REQUIRE(tensor2(1, 1) == 7);
+				REQUIRE(tensor2(1, 2) == 23);
+
+			}
+
+			THEN("the other remains unchanged") {
+
+				REQUIRE(tensor1(0, 0) == 4);
+				REQUIRE(tensor1(0, 1) == 5);
+				REQUIRE(tensor1(0, 2) == 7);
+				REQUIRE(tensor1(1, 0) == 45);
+				REQUIRE(tensor1(1, 1) == 7);
+				REQUIRE(tensor1(1, 2) == 23);
+
+			}
+
+		}
+
+	}
+
+}
+
+SCENARIO("tensor assignment operator", "[tensor]") {
+
+	GIVEN("an initializer list") {
+
+		std::initializer_list<int> list({ 2, 3, 4, 5, 6, 7});
+
+		WHEN("we assign a tensor to the list") {
+
+			sor::tensor<long, 2, 3> tensor;
+			tensor = list;
+
+			THEN("the tensor is filled with the elements of the list") {
+
+				REQUIRE(tensor(0, 0) == 2);
+				REQUIRE(tensor(0, 1) == 3);
+				REQUIRE(tensor(0, 2) == 4);
+				REQUIRE(tensor(1, 0) == 5);
+				REQUIRE(tensor(1, 1) == 6);
+				REQUIRE(tensor(1, 2) == 7);
+
+			}
+
+			THEN("the list remains unchanged") {
+
+				auto it = list.begin();
+				REQUIRE(*(it++) == 2);
+				REQUIRE(*(it++) == 3);
+				REQUIRE(*(it++) == 4);
+				REQUIRE(*(it++) == 5);
+				REQUIRE(*(it++) == 6);
+				REQUIRE(*(it++) == 7);
+
+			}
+
+		}
+
+	}
+
+	GIVEN("two vectors of different types but same dimensionality") {
+
+		sor::tensor<int, 2, 3> tensor1({
+			4, 5, 7,
+			45, 7, 23
+		});
+
+		sor::tensor<long, 2, 3> tensor2({
+			6l, -5l, 17l,
+			9l, 3l, 2l
+		});
+
+		WHEN("we assign one to the other") {
+
+			tensor2 = tensor1;
+
+			THEN("one is copied into the other") {
+
+				REQUIRE(tensor2(0, 0) == 4);
+				REQUIRE(tensor2(0, 1) == 5);
+				REQUIRE(tensor2(0, 2) == 7);
+				REQUIRE(tensor2(1, 0) == 45);
+				REQUIRE(tensor2(1, 1) == 7);
+				REQUIRE(tensor2(1, 2) == 23);
+
+			}
+
+			THEN("the other remains unchanged") {
+
+				REQUIRE(tensor1(0, 0) == 4);
+				REQUIRE(tensor1(0, 1) == 5);
+				REQUIRE(tensor1(0, 2) == 7);
+				REQUIRE(tensor1(1, 0) == 45);
+				REQUIRE(tensor1(1, 1) == 7);
+				REQUIRE(tensor1(1, 2) == 23);
+
+			}
+
+		}
+
+	}
+
+}
+
 SCENARIO("tensor access operator", "[tensor]") {
 
 	GIVEN("a constant tensor") {
