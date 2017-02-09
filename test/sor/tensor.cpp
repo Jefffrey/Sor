@@ -497,6 +497,67 @@ SCENARIO("tensor iterators", "[tensor]") {
 
 }
 
+SCENARIO("tensor underlying data access", "[tensor]") {
+
+	GIVEN("a non constant tensor") {
+
+		sor::tensor<int, 2, 3> tensor({
+			1, 2, 3,
+			4, 5, 6
+		});
+
+		WHEN("we modify the underlying array") {
+
+			int* ptr = tensor.data();
+			ptr[0] = 7;
+			ptr[1] = 8;
+			ptr[2] = 9;
+			ptr[3] = 10;
+			ptr[4] = 11;
+			ptr[5] = 12;
+
+			THEN("the changes are reflected in the tensor") {
+
+				sor::tensor<int, 2, 3> expected({
+					7, 8, 9,
+					10, 11, 12
+				});
+				REQUIRE(tensor == expected);
+
+			}
+
+		}
+
+	}
+
+	GIVEN("a constant tensor") {
+
+		sor::tensor<int, 2, 3> const tensor({
+			1, 2, 3,
+			4, 5, 6
+		});
+
+		WHEN("we access the underlying array") {
+
+			int const* ptr = tensor.data();
+
+			THEN("we can read the array sequentially") {
+
+				REQUIRE(ptr[0] == 1);
+				REQUIRE(ptr[1] == 2);
+				REQUIRE(ptr[2] == 3);
+				REQUIRE(ptr[3] == 4);
+				REQUIRE(ptr[4] == 5);
+				REQUIRE(ptr[5] == 6);
+
+			}
+
+		}
+
+	}
+
+}
+
 SCENARIO("tensor equality", "[tensor]") {
 
 	GIVEN("two equal tensors") {

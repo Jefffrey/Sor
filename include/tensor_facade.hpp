@@ -119,6 +119,11 @@ namespace sor {
 			return const_cast<tensor_facade_type const&>(*this).end();
 		}
 
+		/* Underlying data access.
+		*/
+		Type* data() { return array.data(); }
+		Type const* data() const { return array.data(); }
+
 		/* Swap function
 		*/
 		void swap(tensor_facade& rhs) {
