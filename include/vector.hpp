@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <numeric>
+#include <cassert>
 
 #include "tensor_facade.hpp"
 #include "tensor.hpp"
@@ -78,6 +79,15 @@ namespace sor {
 	Type euclidean_distance(vector<Type, N> lhs, vector<Type, N> const& rhs) {
 		lhs -= rhs;
 		return euclidean_norm(lhs);
+	}
+
+	/* Vector normalization.
+	*/
+	template<typename Type, std::size_t N>
+	void normalize(vector<Type, N>& vec) {
+		auto norm = euclidean_norm(vec);
+		assert(norm != Type());
+		for (auto& element : vec) { element /= norm; }
 	}
 	
 }

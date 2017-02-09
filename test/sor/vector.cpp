@@ -258,7 +258,7 @@ SCENARIO("euclidean norm", "[vector]") {
 		}
 
 	}
-	
+
 }
 
 SCENARIO("euclidean distance", "[vector]") {
@@ -275,6 +275,51 @@ SCENARIO("euclidean distance", "[vector]") {
 			THEN("we get the distance between the two vectors") {
 
 				REQUIRE(result == Approx(113.03096920755833));
+
+			}
+
+		}
+
+	}
+
+}
+
+SCENARIO("vector normalization", "[vector]") {
+
+	GIVEN("a normalized vector") {
+
+		sor::vector<int, 3> vector({ 1, 0, 0 });
+
+		WHEN("we normalize it") {
+
+			normalize(vector);
+
+			THEN("the vector doesn't change") {
+
+				REQUIRE(vector[0] == 1);
+				REQUIRE(vector[1] == 0);
+				REQUIRE(vector[2] == 0);
+
+			}
+
+		}
+
+	}
+
+	GIVEN("a non normalized vector") {
+
+		sor::vector<double, 2> vector({ 34.0, -45.0 });
+		REQUIRE(sor::euclidean_norm(vector) != Approx(1));
+
+		WHEN("we normalize it") {
+
+			normalize(vector);
+
+			THEN("the vector length becomes 1") {
+
+				REQUIRE(vector[0] == Approx(0.6028330892));
+				REQUIRE(vector[1] == Approx(-0.7978673239));
+				REQUIRE(sor::euclidean_norm(vector) == Approx(1));
 
 			}
 
