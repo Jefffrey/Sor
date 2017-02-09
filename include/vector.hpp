@@ -69,5 +69,14 @@ namespace sor {
 		auto sum = std::accumulate(vec.begin(), vec.end(), Type(), acc_fn);
 		return std::sqrt(sum);
 	}
+
+	/* Euclidean distance.
+	 * @todo: improve space complexity
+	*/
+	template<typename Type, std::size_t N>
+	Type euclidean_distance(vector<Type, N> lhs, vector<Type, N> const& rhs) {
+		lhs -= rhs;
+		return euclidean_norm(lhs);
+	}
 	
 }

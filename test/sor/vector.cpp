@@ -247,11 +247,34 @@ SCENARIO("euclidean norm", "[vector]") {
 
 		WHEN("we calculate the euclidean norm") {
 
-			auto res = sor::euclidean_norm(vector);
+			auto result = sor::euclidean_norm(vector);
 
 			THEN("the result is the length of the vector") {
 
-				REQUIRE(res == Approx(70.7742891169));
+				REQUIRE(result == Approx(70.7742891169));
+
+			}
+
+		}
+
+	}
+
+}
+
+SCENARIO("euclidean distance", "[vector]") {
+
+	GIVEN("a couple of vectors") {
+
+		sor::vector<double, 2> vector1({ 28.0, 65.0 });
+		sor::vector<double, 2> vector2({ 2.0, -45.0 });
+
+		WHEN("we calculate the euclidean distance") {
+
+			auto result = sor::euclidean_distance(vector1, vector2);
+
+			THEN("we get the distance between the two vectors") {
+
+				REQUIRE(result == Approx(113.03096920755833));
 
 			}
 
