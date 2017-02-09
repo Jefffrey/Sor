@@ -6,7 +6,7 @@ This header only library contains a main tensor class and related functions and 
 
 The library depends on:
 
- - C++14
+ - C++17
 
 Additional testing dependencies are:
 
@@ -24,7 +24,7 @@ python bootstrap.py
 ninja install
 ```
 
-all files and folders inside `include/` will be copied in the installation path specified by `--install-path` (it defaults to /usr/local/). I recommend inspecting the actual command being run before running it, as the syntax is different between operating systems.
+all files and folders inside `include/` will be copied in the installation path specified by `--install-path` (it defaults to `/usr/local/`). I recommend inspecting the actual command being run before running it, as the syntax is different between operating systems.
 
 ###Testing
 
