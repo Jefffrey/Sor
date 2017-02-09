@@ -22,5 +22,39 @@ namespace sor {
 		Type const& operator[](std::size_t i) const { return (*this)(i); }
 
 	};
+
+	/* Component x, y, z, w access.
+	*/
+	template<typename Type, std::size_t N,
+		typename std::enable_if<(N > 0), int>::type = 0>
+	auto& x(vector<Type, N>& vector) { return vector[0]; }
+
+	template<typename Type, std::size_t N,
+		typename std::enable_if<(N > 0), int>::type = 0>
+	auto& x(vector<Type, N> const& vector) { return vector[0]; }
+
+	template<typename Type, std::size_t N,
+		typename std::enable_if<(N > 1), int>::type = 0>
+	auto& y(vector<Type, N>& vector) { return vector[1]; }
+
+	template<typename Type, std::size_t N,
+		typename std::enable_if<(N > 1), int>::type = 0>
+	auto& y(vector<Type, N> const& vector) { return vector[1]; }
+
+	template<typename Type, std::size_t N,
+		typename std::enable_if<(N > 2), int>::type = 0>
+	auto& z(vector<Type, N>& vector) { return vector[2]; }
+
+	template<typename Type, std::size_t N,
+		typename std::enable_if<(N > 2), int>::type = 0>
+	auto& z(vector<Type, N> const& vector) { return vector[2]; }
+
+	template<typename Type, std::size_t N,
+		typename std::enable_if<(N > 3), int>::type = 0>
+	auto& w(vector<Type, N>& vector) { return vector[3]; }
+
+	template<typename Type, std::size_t N,
+		typename std::enable_if<(N > 3), int>::type = 0>
+	auto& w(vector<Type, N> const& vector) { return vector[3]; }
 	
 }
