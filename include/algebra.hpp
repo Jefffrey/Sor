@@ -52,14 +52,20 @@ namespace sor {
 	/* Vector & matrix scalar multiplication.
 	*/
 	template<typename LhsType, std::size_t... Dims, typename RhsType,
-		typename std::enable_if<sizeof...(Dims) < 3, int>::type = 0>
+		typename std::enable_if<
+			sizeof...(Dims) < 3 && !sor::is_tensor<RhsType>::value, 
+			int
+		>::type = 0>
 	auto& operator*=(tensor<LhsType, Dims...>& lhs, RhsType const& rhs) {
 		for (auto& i : lhs) { i *= rhs; }
 		return rhs;
 	}
 
 	template<typename LhsType, std::size_t... Dims, typename RhsType,
-		typename std::enable_if<sizeof...(Dims) < 3, int>::type = 0>
+		typename std::enable_if<
+			sizeof...(Dims) < 3 && !sor::is_tensor<RhsType>::value, 
+			int
+		>::type = 0>
 	auto operator*(tensor<LhsType, Dims...> const& lhs, RhsType const& rhs) {
 		using result_type = tensor<typename std::common_type<LhsType, RhsType>::type, Dims...>;
 		result_type result(lhs);
@@ -68,7 +74,10 @@ namespace sor {
 	}
 
 	template<typename LhsType, typename RhsType, std::size_t... Dims,
-		typename std::enable_if<sizeof...(Dims) < 3, int>::type = 0>
+		typename std::enable_if<
+			sizeof...(Dims) < 3 && !sor::is_tensor<LhsType>::value, 
+			int
+		>::type = 0>
 	auto operator*(LhsType const& lhs, tensor<RhsType, Dims...> const& rhs) {
 		using result_type = tensor<typename std::common_type<LhsType, RhsType>::type, Dims...>;
 		result_type result(rhs);
@@ -81,14 +90,20 @@ namespace sor {
 	 * have clear semantic in this context.
 	*/
 	template<typename LhsType, std::size_t... Dims, typename RhsType,
-		typename std::enable_if<sizeof...(Dims) < 3, int>::type = 0>
+		typename std::enable_if<
+			sizeof...(Dims) < 3 && !sor::is_tensor<RhsType>::value, 
+			int
+		>::type = 0>
 	auto& operator/=(tensor<LhsType, Dims...>& lhs, RhsType const& rhs) {
 		for (auto& i : lhs) { i /= rhs; }
 		return rhs;
 	}
 
 	template<typename LhsType, std::size_t... Dims, typename RhsType,
-		typename std::enable_if<sizeof...(Dims) < 3, int>::type = 0>
+		typename std::enable_if<
+			sizeof...(Dims) < 3 && !sor::is_tensor<RhsType>::value, 
+			int
+		>::type = 0>
 	auto operator/(tensor<LhsType, Dims...> const& lhs, RhsType const& rhs) {
 		using result_type = tensor<typename std::common_type<LhsType, RhsType>::type, Dims...>;
 		result_type result(lhs);
