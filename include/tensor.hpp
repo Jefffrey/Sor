@@ -36,6 +36,11 @@ namespace sor {
 	struct extent<tensor<Type, First, Dims...>, 0>
 		: public std::integral_constant<std::size_t, First> {};
 
+	/* Implementation of the `std::is_tensor` metaprogramming function.
+	*/
+	template<typename Type, std::size_t... Dims>
+	struct is_tensor<tensor<Type, Dims...>> : std::true_type {};
+
 	/* Equality operators
 	*/
 	template<typename LhsType, typename RhsType, std::size_t... LhsDims, std::size_t... RhsDims>

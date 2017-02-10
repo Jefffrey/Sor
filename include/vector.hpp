@@ -4,6 +4,7 @@
 #include <numeric>
 #include <cassert>
 
+#include "type_traits.hpp"
 #include "tensor_facade.hpp"
 #include "tensor.hpp"
 #include "algebra.hpp"
@@ -27,6 +28,23 @@ namespace sor {
 		Type const& operator[](std::size_t i) const { return (*this)(i); }
 
 	};
+
+	/* Implementation of the `sor::order` metaprogramming function.
+	*/
+	template<typename Type, std::size_t N>
+	struct order<vector<Type, N>>
+		: public std::integral_constant<std::size_t, 1> {};
+
+	/* Implementation of the `sor::extent` metaprogramming function.
+	*/
+	template<typename Type, std::size_t N>
+	struct extent<vector<Type, N>, 0>
+		: public std::integral_constant<std::size_t, N> {};
+
+	/* Implementation of the `std::is_tensor` metaprogramming function.
+	*/
+	template<typename Type, std::size_t N>
+	struct is_tensor<vector<Type, N>> : std::true_type {};
 
 	/* Component x, y, z, w access.
 	*/

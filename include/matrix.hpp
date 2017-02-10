@@ -1,5 +1,6 @@
 #pragma once
 
+#include "type_traits.hpp"
 #include "tensor_facade.hpp"
 #include "tensor.hpp"
 #include "algebra.hpp"

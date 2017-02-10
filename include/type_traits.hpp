@@ -25,4 +25,10 @@ namespace sor {
 	template<typename TensorType, std::size_t Index>
 	struct extent;
 
+	/* Meta programming function that returns true if the type passed in is a tensor
+	 * and therefore meets the Tensor requirements.
+	*/
+	template<typename Type>
+	struct is_tensor : std::false_type {};
+
 }

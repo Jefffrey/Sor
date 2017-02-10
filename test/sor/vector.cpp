@@ -3,6 +3,50 @@
 #include "../../deps/catch/include/catch.hpp"
 #include "../../include/vector.hpp"
 
+SCENARIO("vector order query", "[vector]") {
+
+	GIVEN("a vector type") {
+
+		using vector_type = sor::vector<int, 2>;
+
+		WHEN("we query the order value") {
+
+			constexpr auto order = sor::order<vector_type>::value;
+
+			THEN("we get 1") {
+
+				REQUIRE(order == 1);
+
+			}
+
+		}
+
+	}
+
+}
+
+SCENARIO("vector extent query", "[vector]") {
+
+	GIVEN("a vector type") {
+
+		using vector_type = sor::vector<int, 3>;
+
+		WHEN("we query the extent values") {
+
+			constexpr auto extent = sor::extent<vector_type, 0>::value;
+
+			THEN("we get the dimensionality of the matrix") {
+
+				REQUIRE(extent == 3);
+
+			}
+
+		}
+
+	}
+
+}
+
 SCENARIO("vector subscript access", "[vector]") {
 
 	GIVEN("a constant vector") {
