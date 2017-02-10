@@ -274,3 +274,33 @@ SCENARIO("vector normalization", "[vector]") {
 	}
 
 }
+
+SCENARIO("vector dot product", "[vector]") {
+
+	GIVEN("two vectors") {
+
+		sor::vector<int, 3> vector1({ 1, 3, -5 });
+		sor::vector<long, 3> vector2({ 4, -2, -1 });
+
+		WHEN("we calculate the dot product of the two") {
+
+			auto result = sor::dot_product(vector1, vector2);
+
+			THEN("the result is correct") {
+
+				REQUIRE(result == 3);
+
+			}
+
+			THEN("the result type is the common type of the two vector value types") {
+
+				constexpr bool is_long = std::is_same<decltype(result), long>::value;
+				REQUIRE(is_long);
+				
+			}
+
+		}
+
+	}
+
+}

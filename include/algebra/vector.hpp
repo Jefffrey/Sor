@@ -72,4 +72,19 @@ namespace sor {
 		for (auto& element : vec) { element /= norm; }
 	}
 
+	/* Dot product.
+	*/
+	template<typename LhsType, typename RhsType, std::size_t N>
+	auto dot_product(vector<LhsType, N> const& lhs, vector<RhsType, N> const& rhs) {
+		using result_type = typename std::common_type<LhsType, RhsType>::type;
+		result_type result{};
+
+		auto lit = lhs.cbegin();
+		auto rit = rhs.cbegin();
+		for (; lit < lhs.cend() && rit < rhs.cend(); ++lit, ++rit) {
+			result += (*lit) * (*rit);
+		}
+		return result;
+	}
+
 }
