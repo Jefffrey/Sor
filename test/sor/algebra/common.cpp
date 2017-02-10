@@ -1,7 +1,7 @@
-#include "../../deps/catch/include/catch.hpp"
-#include "../../include/vector.hpp"
-#include "../../include/matrix.hpp"
-#include "../../include/algebra.hpp"
+#include "../../../deps/catch/include/catch.hpp"
+#include "../../../include/vector.hpp"
+#include "../../../include/matrix.hpp"
+#include "../../../include/algebra/algebra.hpp"
 
 SCENARIO("vector negation", "[algebra]") {
 
