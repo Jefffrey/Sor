@@ -497,6 +497,153 @@ SCENARIO("tensor iterators", "[tensor]") {
 
 }
 
+SCENARIO("tensor reverse iterators", "[tensor]") {
+
+	GIVEN("a non constant tensor") {
+
+		std::initializer_list<int> elements = {
+			4, 5, 7, 2,
+			45, 7, 23, 21, 
+			98, 3, 56, 12
+		};
+		sor::tensor<int, 3, 4> tensor(elements);
+
+		WHEN("we access its elements via reverse iterators") {
+
+			bool are_equal = std::equal(
+				tensor.rbegin(), tensor.rend(), 
+				std::rbegin(elements), std::rend(elements)
+			);
+
+			THEN("we get them in the order given at construction") {
+
+				REQUIRE(are_equal);
+
+			}
+
+		}
+
+		WHEN("we access its elements via constant reverse iterators") {
+
+			bool are_equal = std::equal(
+				tensor.crbegin(), tensor.crend(), 
+				std::rbegin(elements), std::rend(elements)
+			);
+
+			THEN("we get them in the order given at construction") {
+
+				REQUIRE(are_equal);
+
+			}
+
+			THEN("the iterator type is constant") {
+
+				constexpr bool is_constant_iterator = std::is_same<
+					decltype(tensor.crbegin()), 
+					sor::tensor<int, 3, 4>::const_reverse_iterator
+				>::value;
+				REQUIRE(is_constant_iterator);
+
+			}
+
+			THEN("the reference from the iterator is constant") {
+
+				constexpr bool is_constant_value = std::is_same<
+					decltype(*(tensor.crbegin())), 
+					int const&
+				>::value;
+				REQUIRE(is_constant_value);
+
+			}
+
+		}
+
+		WHEN("we modify its elements via iterators") {
+
+			std::initializer_list<int> new_elements = {
+				6, 1, 34, 0,
+				-3, 5, 34, -2, 
+				-76, 234, 12, -12
+			};
+			std::copy(new_elements.begin(), new_elements.end(), tensor.rbegin());
+
+			THEN("they are modified in the tensor") {
+
+				bool are_equal = std::equal(
+					tensor.cbegin(), tensor.cend(), 
+					std::rbegin(new_elements), std::rend(new_elements)
+				);
+				REQUIRE(are_equal);
+
+			}
+
+		}
+
+	}
+
+	GIVEN("a constant tensor") {
+
+		std::initializer_list<int> elements = {
+			4, 5, 7, 2,
+			45, 7, 23, 21, 
+			98, 3, 56, 12
+		};
+		sor::tensor<int, 3, 4> const tensor(elements);
+
+		WHEN("we access its elements via iterators") {
+
+			bool are_equal = std::equal(
+				tensor.rbegin(), tensor.rend(), 
+				std::rbegin(elements), std::rend(elements)
+			);
+
+			THEN("we get them in the order given at construction") {
+
+				REQUIRE(are_equal);
+
+			}
+
+		}
+
+		WHEN("we access its elements via constant iterators") {
+
+			bool are_equal = std::equal(
+				tensor.crbegin(), tensor.crend(), 
+				std::rbegin(elements), std::rend(elements)
+			);
+
+			THEN("we get them in the order given at construction") {
+
+				REQUIRE(are_equal);
+
+			}
+
+			THEN("the iterator type is constant") {
+
+				constexpr bool is_constant_iterator = std::is_same<
+					decltype(tensor.crbegin()), 
+					sor::tensor<int, 3, 4>::const_reverse_iterator
+				>::value;
+				REQUIRE(is_constant_iterator);
+
+			}
+
+			THEN("the reference from the iterator is constant") {
+
+				constexpr bool is_constant_value = std::is_same<
+					decltype(*(tensor.crbegin())), 
+					int const&
+				>::value;
+				REQUIRE(is_constant_value);
+
+			}
+
+		}
+
+	}
+
+}
+
 SCENARIO("tensor underlying data access", "[tensor]") {
 
 	GIVEN("a non constant tensor") {

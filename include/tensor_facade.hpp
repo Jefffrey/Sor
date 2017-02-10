@@ -53,9 +53,19 @@ namespace sor {
 
 		/* Type definitions
 		*/
-		using value_type = Type;
-		using reference = Type&;
-		using const_reference = Type const&;
+		using value_type = typename container_type::value_type;
+
+		using reference = typename container_type::reference;
+		using const_reference = typename container_type::const_reference;
+
+		using pointer = typename container_type::pointer;
+		using const_pointer = typename container_type::const_pointer;
+
+		using iterator = typename container_type::iterator;
+		using const_iterator = typename container_type::const_iterator;
+
+		using reverse_iterator = typename container_type::reverse_iterator;
+		using const_reverse_iterator = typename container_type::const_reverse_iterator;
 
 		/* Friend related tensor facade classes
 		*/
@@ -102,11 +112,8 @@ namespace sor {
 			return (*this);
 		}
 
-		/* Iterators 
+		/* Iterators.
 		*/
-		using iterator = typename container_type::iterator;
-		using const_iterator = typename container_type::const_iterator;
-
 		constexpr iterator begin() { return array.begin(); }
 		constexpr const_iterator begin() const { return array.begin(); }
 		constexpr const_iterator cbegin() const { 
@@ -119,10 +126,24 @@ namespace sor {
 			return const_cast<tensor_facade_type const&>(*this).end();
 		}
 
+		/* Reverse iterators.
+		*/
+		constexpr reverse_iterator rbegin() { return array.rbegin(); }
+		constexpr const_reverse_iterator rbegin() const { return array.rbegin(); }
+		constexpr const_reverse_iterator crbegin() const { 
+			return const_cast<tensor_facade_type const&>(*this).rbegin();
+		}
+
+		constexpr reverse_iterator rend() { return array.rend(); }
+		constexpr const_reverse_iterator rend() const { return array.rend(); }
+		constexpr const_reverse_iterator crend() const {
+			return const_cast<tensor_facade_type const&>(*this).rend();
+		}
+
 		/* Underlying data access.
 		*/
-		Type* data() { return array.data(); }
-		Type const* data() const { return array.data(); }
+		pointer data() { return array.data(); }
+		const_pointer data() const { return array.data(); }
 
 		/* Swap function
 		*/
