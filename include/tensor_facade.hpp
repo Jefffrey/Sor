@@ -79,17 +79,25 @@ namespace sor {
 		tensor_facade(tensor_facade&&) = default;
 
 		/* Templated copy constructor
+		 * Note: It doesn't seem possible to initialize an `std::array` of a type with another
+		 * of another type, so the exception specification needs to assert that the other type
+		 * is nothrow assignable instead.
 		*/
 		template<typename OtherType>
-		tensor_facade(tensor_facade<OtherType, Dims...> const& other) {
+		tensor_facade(tensor_facade<OtherType, Dims...> const& other)
+				noexcept(std::is_nothrow_assignable<Type, OtherType>::value) {
 			(*this) = other;
 		}
 
 		/* Constructor that initializes the array as if you were to initialize an array of multiple
 		 * dimensions (left to right, top to bottom, front to back, etc...).
+		 * Note: It doesn't seem possible to initialize an `std::array` with an `std::initializer_list`;
+		 * this means that the exception specification needs to assert that the type is nothrow
+		 * assignable instead.
 		*/
 		template<typename OtherType>
-		explicit tensor_facade(std::initializer_list<OtherType> const& list) {
+		explicit tensor_facade(std::initializer_list<OtherType> const& list)
+				noexcept(std::is_nothrow_assignable<Type, OtherType>::value) {
 			(*this) = list;
 		}
 
@@ -101,49 +109,51 @@ namespace sor {
 		/* Templated copy assignment operator
 		*/
 		template<typename OtherType>
-		tensor_facade& operator=(tensor_facade<OtherType, Dims...> const& other) {
+		tensor_facade& operator=(tensor_facade<OtherType, Dims...> const& other)
+				noexcept(std::is_nothrow_assignable<Type, OtherType>::value) {
 			std::copy(other.array.begin(), other.array.end(), array.begin());
 			return (*this);
 		}
 
 		template<typename OtherType>
-		tensor_facade& operator=(std::initializer_list<OtherType> const& list) {
+		tensor_facade& operator=(std::initializer_list<OtherType> const& list)
+				noexcept(std::is_nothrow_assignable<Type, OtherType>::value) {
 			std::copy(list.begin(), list.end(), array.begin());
 			return (*this);
 		}
 
 		/* Iterators.
 		*/
-		constexpr iterator begin() { return array.begin(); }
-		constexpr const_iterator begin() const { return array.begin(); }
-		constexpr const_iterator cbegin() const { 
+		constexpr iterator begin() noexcept { return array.begin(); }
+		constexpr const_iterator begin() const noexcept { return array.begin(); }
+		constexpr const_iterator cbegin() const noexcept { 
 			return const_cast<tensor_facade_type const&>(*this).begin();
 		}
 
-		constexpr iterator end() { return array.end(); }
-		constexpr const_iterator end() const { return array.end(); }
-		constexpr const_iterator cend() const {
+		constexpr iterator end() noexcept { return array.end(); }
+		constexpr const_iterator end() const noexcept { return array.end(); }
+		constexpr const_iterator cend() const noexcept {
 			return const_cast<tensor_facade_type const&>(*this).end();
 		}
 
 		/* Reverse iterators.
 		*/
-		constexpr reverse_iterator rbegin() { return array.rbegin(); }
-		constexpr const_reverse_iterator rbegin() const { return array.rbegin(); }
-		constexpr const_reverse_iterator crbegin() const { 
+		constexpr reverse_iterator rbegin() noexcept { return array.rbegin(); }
+		constexpr const_reverse_iterator rbegin() const noexcept { return array.rbegin(); }
+		constexpr const_reverse_iterator crbegin() const noexcept { 
 			return const_cast<tensor_facade_type const&>(*this).rbegin();
 		}
 
-		constexpr reverse_iterator rend() { return array.rend(); }
-		constexpr const_reverse_iterator rend() const { return array.rend(); }
-		constexpr const_reverse_iterator crend() const {
+		constexpr reverse_iterator rend() noexcept { return array.rend(); }
+		constexpr const_reverse_iterator rend() const noexcept { return array.rend(); }
+		constexpr const_reverse_iterator crend() const noexcept {
 			return const_cast<tensor_facade_type const&>(*this).rend();
 		}
 
 		/* Underlying data access.
 		*/
-		pointer data() { return array.data(); }
-		const_pointer data() const { return array.data(); }
+		pointer data() noexcept { return array.data(); }
+		const_pointer data() const noexcept { return array.data(); }
 
 		/* Swap function
 		*/
@@ -162,14 +172,14 @@ namespace sor {
 		*/
 		template<typename... Args,
 			typename std::enable_if<sizeof...(Args) == sizeof...(Dims), int>::type = 0>
-		Type& operator()(Args... args) {
+		Type& operator()(Args... args) noexcept {
 			auto index = detail::flatten_indexes<Dims...>(args...);
 			return array[index];
 		}
 
 		template<typename... Args,
 			typename std::enable_if<sizeof...(Args) == sizeof...(Dims), int>::type = 0>
-		Type const& operator()(Args... args) const {
+		Type const& operator()(Args... args) const noexcept {
 			auto index = detail::flatten_indexes<Dims...>(args...);
 			return array[index];
 		}
@@ -179,15 +189,15 @@ namespace sor {
 		using difference_type = typename container_type::difference_type;
 		using size_type = typename container_type::size_type;
 
-		constexpr size_type size() const {
+		constexpr size_type size() const noexcept {
 			return detail::multiply<Dims...>::value;
 		}
 
-		constexpr size_type max_size() const {
+		constexpr size_type max_size() const noexcept {
 			return this->size();
 		}
 
-		constexpr bool empty() const {
+		constexpr bool empty() const noexcept {
 			return size() == 0;
 		}
 

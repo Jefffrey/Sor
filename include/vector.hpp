@@ -22,8 +22,8 @@ namespace sor {
 
 		/* Vector subscript access.
 		*/
-		Type& operator[](std::size_t i) { return (*this)(i); }
-		Type const& operator[](std::size_t i) const { return (*this)(i); }
+		Type& operator[](std::size_t i) noexcept { return (*this)(i); }
+		Type const& operator[](std::size_t i) const noexcept { return (*this)(i); }
 
 	};
 
